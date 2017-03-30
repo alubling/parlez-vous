@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import { Font, AppLoading } from 'expo';
 import { Screen, Spinner, Examples } from '@shoutem/ui';
+import { stringify as queryString } from 'query-string';
 
 import RecommendationsMap from './RecommendationsMap';
 import styles from './styles';
@@ -54,6 +55,7 @@ class App extends React.Component {
     this.watchID = Expo.Location.watchPositionAsync({
       enableHighAccuracy: true
     },({ coords }) => {
+      console.log("coords are: ", coords);
       let region = {
         latitude: coords.latitude,
         longitude: coords.longitude,
@@ -62,6 +64,7 @@ class App extends React.Component {
       }
       this.onRegionChange(region, coords.accuracy);
     });
+
   }
 
   componentWillUnmount() {
@@ -69,7 +72,8 @@ class App extends React.Component {
   }
 
   onRegionChange(region, gpsAccuracy) {
-    //this.fetchVenues(region);
+    console.log("region is: ", region);
+    this.fetchVenues(region);
 
     this.setState({
       mapRegion: region,
@@ -78,9 +82,14 @@ class App extends React.Component {
   }
 
   fetchVenues(region, lookingFor) {
+
+    console.log("lookingFor is: ", lookingFor);
+
     if (!this.shouldFetchVenues(lookingFor)) return;
 
     const query = this.venuesQuery(region, lookingFor);
+
+    console.log("the query is: ", query );
 
     fetch(`${FOURSQUARE_ENDPOINT}?${query}`)
       .then(fetch.throwErrors)

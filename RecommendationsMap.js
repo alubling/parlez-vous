@@ -7,10 +7,6 @@ import { Title, Subtitle } from '@shoutem/ui';
 import Recommendation from './Recommendation';
 import styles from './styles'
 
-// {lookingFor ? `${lookingFor} in` : ''} {headerLocation}
-
-// {recommendations.map(r => <Recommendation {...r} key={r.venue.id} /> )}
-
 
 const RecommendationsMap = ({
   mapRegion,
